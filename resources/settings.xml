@@ -1,0 +1,5 @@
+<settings>
+    <setting id="stv_username" label="30000" type="text" default="" />
+    <setting id="stv_password" label="30001" type="text" default="" />
+</settings>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.savetv"
+       name="save.tv"
+       version="1.0.0"
+       provider-name="Bernhard Bock">
+  <requires>
+    <import addon="xbmc.python" version="2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>save.tv video plugin</summary>
+    <description>Stream recordings live from the save.tv online video recorder to your XBMC! This plugin supports premium accounts only. Right-click and enter your credentials in the settings.</description>
+  </extension>
+</addon>
