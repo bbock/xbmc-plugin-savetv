@@ -16,7 +16,7 @@ import sys,random,urllib,urllib2,re
 import xbmc,xbmcaddon,xbmcgui,xbmcplugin
 import cookielib,string
 
-cookies = cookielib.LWPCookieJar()
+cookies = cookielib.MozillaCookieJar()
 cookiefile = xbmc.translatePath('special://profile/addon_data/plugin.video.savetv/')+'stvcookie'
 httpheaders = [('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0.2) Gecko/20100101 Firefox/6.0.2'),
                ('Accept-Language', 'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'),
