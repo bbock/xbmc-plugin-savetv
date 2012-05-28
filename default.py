@@ -34,21 +34,35 @@ def index():
     listofrecordings=response.read()
     response.close()
 
-    # cookies from cookiejar got invalid, re-login
     if not re.match(r'Mein Videoarchiv', listofrecordings):
+        # cookies from cookiejar got invalid, re-login
         stvLogin()
         response = urllib2.urlopen(url)
         listofrecordings=response.read()
         response.close()
-    
-    # Get rid of whitespace and linebreaks to make recording titles look nice
-    listofrecordings = re.sub(r'\s+', ' ', listofrecordings)
 
-    match=re.compile(r'a href="([^"]*)" class="(normal|child)">(.*?)<\/td>').findall(listofrecordings)
+    parseVideoArchivePage(listofrecordings)
+
+    # pagination
+    match = re.compile(r'usShowVideoArchive\.cfm\?iPageNumber=(\d+)\&bLoadLast=1">\d+<\/a>').findall(listofrecordings)
+    for page in match:
+        print "found page"+page+"!!\n"
+        response = urllib2.urlopen(url + "?iPageNumber=" + page)
+        listofrecordings=response.read()
+        response.close()
+        parseVideoArchivePage(listofrecordings)
+
+def parseVideoArchivePage(stvHtmlPage):
+    # Get rid of whitespace and linebreaks to make recording titles look nice
+    stvHtmlPage = re.sub(r'\s+', ' ', stvHtmlPage)
+
+    # extract titles, links and add them to xbmc listing
+    match=re.compile(r'a href="([^"]*)" class="(normal|child)">(.*?)<\/td>').findall(stvHtmlPage)
     for detailslinkurl,unused,name in match:
         recordingtitle = string.replace(name, '</a>', '')
         telecastid = re.findall(r'TelecastID=(\d+)', detailslinkurl).pop()
         addItemForTelecastId(recordingtitle,telecastid,'')
+
             
 def downloadVideoFile(telecastid, name):
     dlurl = getLinkForTelecastId(telecastid)
